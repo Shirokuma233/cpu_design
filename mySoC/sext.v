@@ -15,7 +15,7 @@ always @(*) begin
   else if(op == `SEXT_S) ext={{20{sign}},{din[31:25]},{din[11:7]}};
   else if(op == `SEXT_B) ext={{19{sign}},{din[31]},{din[7]},{din[30:25]},{din[11:8]},{1'b0}};
   else if(op == `SEXT_U) ext={{din[31:12]},{12{1'b0}}};
-  else if(op == `SEXT_J) ext={{11{sign}},{din[31]},{din[30:21]},{din[20]},{din[19:12]},{1'b0}};
+  else if(op == `SEXT_J) ext={{11{sign}},{din[31]},{din[19:12]},{din[20]},{din[30:21]},{1'b0}};
 end
 
 endmodule
