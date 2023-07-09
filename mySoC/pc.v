@@ -7,7 +7,7 @@ module pc(
 );
 
 always @(posedge clk or posedge rst) begin
-  if(rst) pc <= 0;
+  if(rst) pc <= -4;
   else pc <= din;
 end
 

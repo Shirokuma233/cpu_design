@@ -1,0 +1,34 @@
+.
+├── bin（指令测试用例，用于初始化内存）
+│   ├── add.bin
+│   ├── .......
+│   ├── xor.bin
+│   └── xori.bin
+├── asm（指令测试用例的反汇编文件，用于调试）
+│   ├── add.dump
+│   ├── .......
+│   ├── xor.dump
+│   └── xori.dump
+├── csrc（测试驱动框架，包括比对逻辑）
+│   ├── dut.h
+│   └── test.cpp
+├── golden_model（参考RISC-V CPU行为模型，使用C语言编写）
+│   ├── emu.c
+│   ├── include/...
+│   └── stage/...
+├── waveform【运行测试后生成】（运行测试生成的波形文件，用于调试）
+│   ├── add.vcd
+│   ├── ........
+│   └── xori.vcd
+├── Makefile
+├── mySoC（你实现的SoC的Verilog代码，放在此目录下，仅放Verilog代码，不拷贝IP核）
+|   ├── defines.vh
+│   ├── miniRV_SoC.v（或miniLA_SoC.v）
+|   ├── myCPU.v
+|   ├── Bridge.v
+│   └── ......
+├── vsrc（仿真需要用到的其他文件）
+|   ├── ram.v（distributed memory的行为仿真模型）
+│   └── ram1.v（用于字节和半字的Load/Store指令测试）
+├── run_all_tests.py（自动化测试脚本）
+└── Makefile
