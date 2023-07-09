@@ -2,19 +2,28 @@ module display(
   input wire clk,
   input wire rst,
   input wire[31:0] data,
+  input wire data_en,
   output reg[7:0] led_en,
   output reg[7:0] led_cx
 );
 
 reg[19:0] cnt;
 reg[4:0] cx;
-parameter T = 20'd199999;//2ms
+reg[31:0] mydata;
+reg[7:0] hex_value;
+parameter T = 20'd1;//2ms
 
 parameter n0=8'b1_1000000,n1=8'b1_1111001,n2=8'b1_0100100,n3=8'b1_0110000,n4=8'b1_0011001,
 n5=8'b1_0010010,n6=8'b1_0000010,n7=8'b1_1111000,n8=8'b1_0000000,n9=8'b1_0011000,n10=8'b1_0001000,n11=8'b1_0000011,n12=8'b1_0100111,n13=8'b1_0100001,n14=8'b1_0000110,n15=8'b1_0001110;
 
-//2ms周期计时�??
-always @(posedge clk or posedge rst) begin//分频�??2ms
+//mydata
+always @(*) begin
+  if(rst) mydata=0;
+  else if(data_en) mydata=data;
+end
+
+//2ms周期计时�??
+always @(posedge clk or posedge rst) begin//分频�??2ms
   if(rst) cnt<=20'd0;
   else if(cnt == T) cnt <= 20'd0;
   else cnt <= cnt + 1'd1;
@@ -31,14 +40,14 @@ end
 //轮流为cx赋�??
 always @(led_en) begin
   case(led_en)
-    8'b1111_1110:cx = data[0]+data[1]*2+data[2]*4+data[3]*8;  //data[3:0]
-    8'b1111_1101:cx = data[4]+data[5]*2+data[6]*4+data[7]*8;
-    8'b1111_1011:cx = data[8]+data[9]*2+data[10]*4+data[11]*8;
-    8'b1111_0111:cx = data[12]+data[14]*2+data[14]*4+data[15]*8;
-    8'b1110_1111:cx = data[16]+data[18]*2+data[18]*4+data[19]*8;
-    8'b1101_1111:cx = data[20]+data[22]*2+data[22]*4+data[23]*8;
-    8'b1011_1111:cx = data[24]+data[26]*2+data[26]*4+data[27]*8;
-    8'b0111_1111:cx = data[28]+data[30]*2+data[30]*4+data[31]*8;
+    8'b1111_1110:cx =mydata[0]+mydata[1]*2+mydata[2]*4+mydata[3]*8;  //mydata[3:0]
+    8'b1111_1101:cx = mydata[4]+mydata[5]*2+mydata[6]*4+mydata[7]*8;
+    8'b1111_1011:cx = mydata[8]+mydata[9]*2+mydata[10]*4+mydata[11]*8;
+    8'b1111_0111:cx = mydata[12]+mydata[13]*2+mydata[14]*4+mydata[15]*8;
+    8'b1110_1111:cx = mydata[16]+mydata[17]*2+mydata[18]*4+mydata[19]*8;
+    8'b1101_1111:cx = mydata[20]+mydata[21]*2+mydata[22]*4+mydata[23]*8;
+    8'b1011_1111:cx = mydata[24]+mydata[25]*2+mydata[26]*4+mydata[27]*8;
+    8'b0111_1111:cx = mydata[28]+mydata[29]*2+mydata[30]*4+mydata[31]*8;
     default:cx=5'd0;
   endcase
 end
